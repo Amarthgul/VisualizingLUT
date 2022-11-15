@@ -7,6 +7,7 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ImageDecomposer", "ImageDec
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6655E247-8773-4BBD-8981-0B0FFCB74C3F}"
 	ProjectSection(SolutionItems) = preProject
+		Visualization.html = Visualization.html
 		README.md = README.md
 	EndProjectSection
 EndProject
