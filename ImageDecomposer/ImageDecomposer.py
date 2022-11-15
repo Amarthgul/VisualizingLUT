@@ -3,13 +3,13 @@
 import PIL.Image as img
 import os
 
-_DEBUGGING = True
+
+
 
 # The following are from another script and has little to do with CSE5544 project.
 # They are put here merely as reference or placeholder 
 
-
-
+_DEBUGGING = True
 
 def getCurrentFolder():
     current = str(os.path.abspath(__file__))
@@ -44,13 +44,16 @@ def openAndConvert(fileNames = [], targetFormat ="png"):
         noExtName = name[:-5]
         im.save(outDir + noExtName + '.' + targetFormat)
 
-#==================================================================
+
+'''============================================================='''
+'''============================================================='''
 '''============================================================='''
 
 def Main():  
     if _DEBUGGING:
-        waitingToConv = findWebp()
-        openAndConvert(waitingToConv)
+        print("CSE 5544")
+        #waitingToConv = findWebp()
+        #openAndConvert(waitingToConv)
         
     else:
         try:
