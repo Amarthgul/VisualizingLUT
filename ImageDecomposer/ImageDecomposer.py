@@ -3,13 +3,41 @@
 import PIL.Image as img
 import os
 
+# For GUI to display 
+from UI_MainWindow import Ui_MainWindow
+import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import uic
 
 
+
+_DEBUGGING = False
+
+
+def Main():  
+    if _DEBUGGING:
+        print("CSE 5544")
+        
+    else:
+        app = QtWidgets.QApplication(sys.argv)
+
+        class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+            def __init__(self, *args, obj=None, **kwargs):
+                super(MainWindow, self).__init__(*args, **kwargs)
+                self.setupUi(self)
+
+        window = MainWindow()
+        window.show()
+        app.exec()
+
+
+if __name__ == '__main__':
+    Main()
 
 # The following are from another script and has little to do with CSE5544 project.
 # They are put here merely as reference or placeholder 
 
-_DEBUGGING = True
+# Although the image finding functions may be of help
 
 def getCurrentFolder():
     current = str(os.path.abspath(__file__))
@@ -31,7 +59,6 @@ def findWebp():
 
     return webps
 
-
 def openAndConvert(fileNames = [], targetFormat ="png"):
     '''Given the files, open them and convert to another format and then save'''
 
@@ -45,25 +72,3 @@ def openAndConvert(fileNames = [], targetFormat ="png"):
         im.save(outDir + noExtName + '.' + targetFormat)
 
 
-'''============================================================='''
-'''============================================================='''
-'''============================================================='''
-
-def Main():  
-    if _DEBUGGING:
-        print("CSE 5544")
-        #waitingToConv = findWebp()
-        #openAndConvert(waitingToConv)
-        
-    else:
-        try:
-
-            waitingToConv = findWebp()
-            openAndConvert(waitingToConv)
-
-        except (ValueError,NameError,SyntaxError,AttributeError,\
-            TypeError) as err:
-            print('Error!',err);
-
-if __name__ == '__main__':
-    Main()
