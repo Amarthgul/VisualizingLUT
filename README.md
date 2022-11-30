@@ -27,9 +27,17 @@ The main file for making and displaying the anaylsis
 
 # Logs 
 
+* 29th Nov (Amarth)
+  
+  Split decomposer into serveral files and added the color cube plotter.
+
+  RGB to HSV: https://www.rapidtables.com/convert/color/rgb-to-hsv.html 
+
 * 25th Nov (Amarth)
 
   Added a graphic user interface. 
 
   The GUI is created using QT Designer, interfaced with Python following 
-  this [toturial](https://www.pythonguis.com/tutorials/first-steps-qt-creator/).
+  this [toturial](https://www.pythonguis.com/tutorials/first-steps-qt-creator/). 
+  Simply enter `pyuic5 UI_MainWindow.ui -o UI_MainWindow.py` after updating the `.ui`
+  to generate the py file. 

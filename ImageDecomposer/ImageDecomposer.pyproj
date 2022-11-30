@@ -25,6 +25,9 @@
     <Compile Include="ColorCube.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ReadImage.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UI_MainWindow.py" />
   </ItemGroup>
   <ItemGroup>
