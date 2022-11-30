@@ -1,6 +1,6 @@
 
 import PIL.Image as img
-import os
+import os, os.path
 
 
 # The following are from another script and has little to do with CSE5544 project.
@@ -8,34 +8,33 @@ import os
 
 # Although the image finding functions may be of help
 
-def getCurrentFolder():
-    current = str(os.path.abspath(__file__))
-    for itera in range(len(current) - 1, 0, -1):
-        if current[itera] == '\\':
-            dir = current[0: itera] #Get current directory
-            break;
-    return dir
 
-def findWebp():
-    '''Find webp fomat files'''
-    files = os.listdir(getCurrentFolder())
-
-    webps = []
-    for f in files:
-        print(f.lower()[-4:])
-        if f.lower()[-4:] == "webp":
-            webps.append(f)
-
-    return webps
-
-def openAndConvert(fileNames = [], targetFormat ="png"):
+def openAndConvert(dirFileNames=[], filesNames=[], outDir = './/OutputImages//', targetFormat ="png"):
     '''Given the files, open them and convert to another format and then save'''
 
-    outDir = getCurrentFolder() + '\\OutputImages\\'
     if not os.path.exists(outDir):
         os.makedirs(outDir)
 
-    for name in fileNames:
-        im = img.open(name).convert("RGB")
-        noExtName = name[:-5]
+    for name, file in enumerate(dirFileNames):
+        im = img.open(file).convert("RGB")
+        noExtName = filesNames[name][:-4]
+        print(filesNames[name][:-4])
         im.save(outDir + noExtName + '.' + targetFormat)
+
+
+def getImages(path='.//Images//Baseline', targetFormat ="png"):
+    dirFileNames = []
+    filesNames = []
+    valid_images = [".jpg"]
+    for f in os.listdir(path):
+        ext = os.path.splitext(f)[1]
+        if ext.lower() not in valid_images:
+            continue
+        dirFileNames.append(os.path.join(path, f))
+        filesNames.append(f)
+
+    return dirFileNames, filesNames
+
+
+dirFileNames, filesNames = getImages()
+openAndConvert(dirFileNames=dirFileNames, filesNames=filesNames)
