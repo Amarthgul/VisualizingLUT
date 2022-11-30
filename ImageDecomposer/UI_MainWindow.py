@@ -64,6 +64,7 @@ class Ui_MainWindow(object):
         self.Histo_L_Check.setObjectName("Histo_L_Check")
         self.Histo_All_Check = QtWidgets.QRadioButton(self.Histogram_Area)
         self.Histo_All_Check.setGeometry(QtCore.QRect(20, 20, 41, 17))
+        self.Histo_All_Check.setChecked(True)
         self.Histo_All_Check.setObjectName("Histo_All_Check")
         self.gridLayout.addWidget(self.Histogram_Area, 0, 2, 1, 1)
         self.Image_Area = QtWidgets.QGroupBox(self.centralwidget)

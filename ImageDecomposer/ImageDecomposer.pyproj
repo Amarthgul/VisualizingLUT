@@ -22,6 +22,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ImageDecomposer.py" />
+    <Compile Include="ColorCube.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI_MainWindow.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
@@ -33,6 +37,7 @@
     <Content Include="Images\Baseline\README.md" />
     <Content Include="Images\Sequence1\README.md" />
     <Content Include="Images\Sequence2\README.md" />
+    <Content Include="UI_MainWindow.ui" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
