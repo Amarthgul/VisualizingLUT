@@ -1,5 +1,3 @@
-
-
 import PIL.Image as img
 import os
 
