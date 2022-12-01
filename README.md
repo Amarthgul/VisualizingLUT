@@ -10,7 +10,13 @@ Python project for reading and outputing images as data sheets
 
 * Images 
 
-  Folder of several sequences which shall be read and converted into data sheets
+  Folder of several sequences which shall be read and converted into data sheets.
+  
+  RGB array `(R_VLAUE, G_VALUE, B_VALUE)`
+  
+  RGBL array `(R_VLAUE, G_VALUE, B_VALUE, Brightness)`
+  
+  R channel distribution (0-255): `(0, 3), (1, 10), ..., (255, 0)`
 
 * ImageDecomposer.py
   
