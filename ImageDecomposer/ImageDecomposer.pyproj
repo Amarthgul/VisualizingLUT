@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cbcafdf8-e24f-4742-9f41-0691d56a520d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ImageDecomposer.py</StartupFile>
+    <StartupFile>PlotEmbedding.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,6 +25,7 @@
     <Compile Include="ColorCube.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlotEmbedding.py" />
     <Compile Include="ReadImage.py">
       <SubType>Code</SubType>
     </Compile>
