@@ -21,6 +21,7 @@ from matplotlib.figure import Figure
 from UI_MainWindow import Ui_MainWindow
 from ColorCube import ColorCube 
 from ReadImage import ImageDisplay
+from Histogram import HistoDisplay
 
 _DEBUGGING = False
 
@@ -31,18 +32,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
         self.imageDisp = ImageDisplay()
-        self.cc_rgb = ColorCube()
-        self.cc_hsv = ColorCube()
+        self.histoDisp = HistoDisplay()
+        self.cc_rgb = ColorCube('rgb')
+        self.cc_hsv = ColorCube('hsv')
 
         self.index = 0
 
+        self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
+
         self.NextImageButton.clicked.connect(self.inc)
+        self.PreviousImageButton.clicked.connect(self.dec)
+        self.GrayCardButton.clicked.connect(self.displayGrayCard)
+        self.GradientButton.clicked.connect(self.displayGradient)
+
+        self.Histo_All_Check.toggled.connect(self.CheckAll)
+        self.Histo_R_Check.toggled.connect(self.CheckR)
+        self.Histo_G_Check.toggled.connect(self.CheckG)
+        self.Histo_B_Check.toggled.connect(self.CheckB)
+        self.Histo_L_Check.toggled.connect(self.CheckL)
 
         FigureCanvas.setSizePolicy(self,
                                    QSizePolicy.Expanding,
                                    QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
-        
 
         '''====================================================='''
         '''================== Image Display ===================='''
@@ -51,7 +63,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             layoutImage = QVBoxLayout(self.Image_Area)
         ax_img = self.imageDisp.displayImage()
         canvas_image = FigureCanvas(ax_img.figure)
-        layoutImage.addWidget(canvas_image)
+        layoutImage.addWidget(self.imageDisp)
+        self.show()
+
+        '''====================================================='''
+        '''================ Histogram Display =================='''
+        layoutHisto = self.histoFrame.layout()
+        if layoutHisto is None:
+            layoutHisto = QVBoxLayout(self.histoFrame)
+        ax_hist = self.histoDisp.UpdateHist()
+        canvas_hist = FigureCanvas(ax_hist.figure)
+        layoutHisto.addWidget(self.histoDisp)
+        self.show()
 
         '''====================================================='''
         '''================== RGB Color Cube ==================='''
@@ -75,22 +98,47 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         ax_hsv.mouse_init()
         layout_hsv.addWidget(canvas_hsv)
 
+
     def inc(self):
         self.imageDisp.nextImage()
+        self.UpdateImages()
         
-        layoutImage = self.Image_Area.layout()
-        if layoutImage is None:
-            layoutImage = QVBoxLayout(self.Image_Area)
-        count = layoutImage.count()
-        if count == 1:
-            return
-        item = layoutImage.itemAt(count - 2)
-        widget = item.widget()
-        layoutImage.removeWidget(widget)
-        ax_img = self.imageDisp.UpdateImage()
-        canvas_image = FigureCanvas(ax_img.figure)
-        self.imageDisp.draw()
-        layoutImage.addWidget(canvas_image)
+    def dec(self):
+        self.imageDisp.lastImage()
+        self.UpdateImages()
+
+    def displayGrayCard(self):
+        self.imageDisp.displayGrayCard()
+        self.UpdateImages()
+
+    def displayGradient(self):
+        self.imageDisp.displayGradient()
+        self.UpdateImages()
+
+    def UpdateImages(self):
+        self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
+        self.histoDisp.UpdateHist()
+        
+    def CheckAll(self):
+        if self.Histo_All_Check.isChecked():
+            self.histoDisp.DisplayAll()
+            self.UpdateImages()
+    def CheckR(self):
+        if self.Histo_R_Check.isChecked():
+            self.histoDisp.DisplayOnlyR()
+            self.UpdateImages()
+    def CheckG(self):
+        if self.Histo_G_Check.isChecked():
+            self.histoDisp.DisplayOnlyG()
+            self.UpdateImages()
+    def CheckB(self):
+        if self.Histo_B_Check.isChecked():
+            self.histoDisp.DisplayOnlyB()
+            self.UpdateImages()
+    def CheckL(self):
+        if self.Histo_L_Check.isChecked():
+            self.histoDisp.DisplayOnlyL()
+            self.UpdateImages()
 
 
 

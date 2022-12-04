@@ -149,6 +149,22 @@
         <bool>true</bool>
        </property>
       </widget>
+      <widget class="QFrame" name="histoFrame">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>20</y>
+         <width>351</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+      </widget>
      </widget>
     </item>
     <item row="0" column="0" rowspan="3" colspan="2">

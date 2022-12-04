@@ -7,8 +7,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 class ColorCube(FigureCanvas):
-    def __init__(self):
-        self.mode = 'hsv'
+    def __init__(self, mode = 'rgb'):
+        self.mode = mode
         self.plotSize = 1
         self.step = 8
         self.pointSize = 240
@@ -16,10 +16,6 @@ class ColorCube(FigureCanvas):
         self.fontSize = 15 
         self.showLegend = False 
         self.useBlackBackground = False 
-
-        fig = Figure()
-        self.fig = fig
-        self.axes = fig.add_subplot(111, projection='3d')
 
         self.spatialAxes = [self.step, self.step, self.step]
         self.R = []
@@ -30,6 +26,16 @@ class ColorCube(FigureCanvas):
         self.HSVColor = []
 
         self.initData()
+
+        self.fig = Figure(figsize=(self.plotSize, self.plotSize))
+        self.fig.clear()
+        self.axes = self.fig.add_subplot(111, projection='3d')
+        self.axes.clear()
+        self.axes.axis('off')
+        self.ShowPlot()
+        plt.draw()
+
+        super(ColorCube, self).__init__(self.fig)
 
     def midpoints(self, x):
         sl = ()
@@ -83,8 +89,6 @@ class ColorCube(FigureCanvas):
         self.axes.axis('off')
         if self.useBlackBackground:
             self.axes.set_facecolor("black")
-
-        
 
         start = 0;
         end = 255;

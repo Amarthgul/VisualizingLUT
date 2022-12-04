@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Histogram.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ImageDecomposer.py" />
     <Compile Include="ColorCube.py">
       <SubType>Code</SubType>
