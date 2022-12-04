@@ -46,6 +46,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         FigureCanvas.updateGeometry(self)
 
         cc_rgb = ColorCube()
+        cc_rgb.mode = 'rgb'
         layout_rgb = self.RGB_Area.layout()
         if layout_rgb is None:
             layout_rgb = QVBoxLayout(self.RGB_Area)
