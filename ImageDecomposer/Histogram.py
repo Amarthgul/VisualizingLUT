@@ -35,15 +35,23 @@ class HistoDisplay(FigureCanvas):
                               (0, 0, 1, self.opacity),  # B
                               (0, 0, 0, self.opacity)]  # To be decided 
         
-
         self.fig = Figure(figsize=(width, height), dpi=dpi)
         self.fig.clear()
         self.axes = self.fig.add_subplot(111)
         self.axes.clear()
         self.axes.axis('off')
-        plt.draw()
+
+        if __name__ == "__main__":
+            self._readSampleImage()
+        else: 
+            plt.draw()
 
         super(HistoDisplay, self).__init__(self.fig)
+
+    def _readSampleImage(self):
+        imgPath = './/Images//Baseline//baseline_09.jpg'
+        im = img.open(imgPath).convert("RGB")
+        self.SetImageData(np.asarray(im))
 
     def SetImageData(self, data):
         self.imageData = data 
@@ -98,6 +106,15 @@ class HistoDisplay(FigureCanvas):
                 self.axes.hist(self.channels[i].ravel(), 
                                bins = 256, 
                                fc=self.channelColors[i])
-        self.draw()
+        
+        if __name__ == '__main__':
+            plt.show()
+        else:
+            self.draw()
+
         return self.axes
         
+
+if __name__ == '__main__':
+    hist = HistoDisplay()
+    hist.UpdateHist()

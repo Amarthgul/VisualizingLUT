@@ -119,13 +119,9 @@ class ColorCube(FigureCanvas):
 
 
 
-def main():
+if __name__ == "__main__":
     CC = ColorCube()
     CC.ShowPlot()
-
-
-if __name__ == "__main__":
-    main() 
 
 
 
