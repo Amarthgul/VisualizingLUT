@@ -17,7 +17,7 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
-   <layout class="QGridLayout" name="gridLayout" columnstretch="4,4,10,8">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="2,1,2,0,0,0,0" columnstretch="4,4,10,8">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
@@ -25,44 +25,37 @@
      <number>9</number>
     </property>
     <item row="4" column="0">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="PreviousImageButton">
       <property name="text">
        <string>Previous</string>
       </property>
      </widget>
     </item>
     <item row="5" column="0" colspan="2">
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="GrayCardButton">
       <property name="text">
        <string>Gray Card</string>
       </property>
      </widget>
     </item>
     <item row="3" column="0" colspan="2">
-     <widget class="QSlider" name="horizontalSlider">
+     <widget class="QSlider" name="LUTSlider">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
     <item row="4" column="1">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="NextImageButton">
       <property name="text">
        <string>Next</string>
       </property>
      </widget>
     </item>
     <item row="6" column="0" colspan="2">
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="GradientButton">
       <property name="text">
        <string>Gradient</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3" rowspan="2">
-     <widget class="QGroupBox" name="RGB_Area">
-      <property name="title">
-       <string>RGB</string>
       </property>
      </widget>
     </item>
@@ -92,7 +85,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>50</y>
+         <y>60</y>
          <width>41</width>
          <height>17</height>
         </rect>
@@ -105,7 +98,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>80</y>
+         <y>90</y>
          <width>41</width>
          <height>17</height>
         </rect>
@@ -118,7 +111,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>110</y>
+         <y>120</y>
          <width>41</width>
          <height>17</height>
         </rect>
@@ -131,7 +124,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>140</y>
+         <y>150</y>
          <width>41</width>
          <height>17</height>
         </rect>
@@ -162,6 +155,13 @@
      <widget class="QGroupBox" name="Image_Area">
       <property name="title">
        <string>Image</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3" rowspan="2">
+     <widget class="QGroupBox" name="RGB_Area">
+      <property name="title">
+       <string>RGB</string>
       </property>
      </widget>
     </item>

@@ -22,9 +22,17 @@ Python project for reading and outputing images as data sheets
   
   Main program 
 
+  (This is not the case during development, currently the `PlotEmbedding.py` is where
+  the plots are being drawn)
+
 * UI_MainWindow.py
 
   The GUI translated from `UI_MainWindow.ui`. The `.ui` file is made can can be edited with QT Designer.
+
+* PlotEmbedding.py
+
+  Display the PyQt UI and with plot embeddings 
+
 
 
 ## Visualization.html

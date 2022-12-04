@@ -73,7 +73,7 @@ class ColorCube(FigureCanvas):
         if __name__ == "__main__":
             self.plotSize = 6 
 
-        self.fig = plt.figure(figsize = (self.plotSize, self.plotSize))
+        self.fig = Figure(figsize = (self.plotSize, self.plotSize))
         self.axes = self.fig.add_subplot(111, projection='3d')
 
         # First remove fill

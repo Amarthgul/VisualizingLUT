@@ -34,6 +34,7 @@
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="Images\Baseline\" />
+    <Folder Include="Images\LUTs\" />
     <Folder Include="Images\Sequence2\" />
     <Folder Include="Images\Sequence1\" />
   </ItemGroup>
@@ -41,6 +42,7 @@
     <Content Include="Images\Baseline\README.md" />
     <Content Include="Images\gradient.jpg" />
     <Content Include="Images\graycard.jpg" />
+    <Content Include="Images\LUTs\Mexico.cube" />
     <Content Include="Images\Sequence1\README.md" />
     <Content Include="Images\Sequence2\README.md" />
     <Content Include="UI_MainWindow.ui" />

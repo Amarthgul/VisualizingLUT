@@ -3,7 +3,6 @@
 import os
 import sys
 
-
 import pandas as pd
 
 from PyQt5 import QtCore, QtWidgets
@@ -13,7 +12,6 @@ from PyQt5.QtWidgets import (QFileDialog,
                              QDialog, QApplication, QWidget, QMainWindow, 
                              QAction, QVBoxLayout, QSizePolicy)
 
-
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
@@ -22,48 +20,77 @@ from matplotlib.figure import Figure
 
 from UI_MainWindow import Ui_MainWindow
 from ColorCube import ColorCube 
-
-
+from ReadImage import ImageDisplay
 
 _DEBUGGING = False
 
-#class MplCanvas(FigureCanvas):
-
-#    def __init__(self, parent=None, width=5, height=4, dpi=100):
-#        fig = Figure(figsize=(width, height), dpi=dpi)
-#        self.axes = fig.add_subplot(111)
-#        super(MplCanvas, self).__init__(fig)
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
+        self.imageDisp = ImageDisplay()
+        self.cc_rgb = ColorCube()
+        self.cc_hsv = ColorCube()
+
+        self.index = 0
+
+        self.NextImageButton.clicked.connect(self.inc)
 
         FigureCanvas.setSizePolicy(self,
                                    QSizePolicy.Expanding,
                                    QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
+        
 
-        cc_rgb = ColorCube()
-        cc_rgb.mode = 'rgb'
+        '''====================================================='''
+        '''================== Image Display ===================='''
+        layoutImage = self.Image_Area.layout()
+        if layoutImage is None:
+            layoutImage = QVBoxLayout(self.Image_Area)
+        ax_img = self.imageDisp.displayImage()
+        canvas_image = FigureCanvas(ax_img.figure)
+        layoutImage.addWidget(canvas_image)
+
+        '''====================================================='''
+        '''================== RGB Color Cube ==================='''
+        self.cc_rgb.mode = 'rgb'
         layout_rgb = self.RGB_Area.layout()
         if layout_rgb is None:
             layout_rgb = QVBoxLayout(self.RGB_Area)
-        ax_rgb = cc_rgb.ShowPlot()
+        ax_rgb = self.cc_rgb.ShowPlot()
         canvas_rbg = FigureCanvas(ax_rgb.figure)
         ax_rgb.mouse_init()
         layout_rgb.addWidget(canvas_rbg)
 
-        cc_hsv = ColorCube()
-        cc_hsv.mode = 'hsv'
+        '''====================================================='''
+        '''================== HSV Color Cube ==================='''
+        self.cc_hsv.mode = 'hsv'
         layout_hsv = self.HSV_Area.layout()
         if layout_hsv is None:
             layout_hsv = QVBoxLayout(self.HSV_Area)
-        ax_hsv = cc_hsv.ShowPlot()
+        ax_hsv = self.cc_hsv.ShowPlot()
         canvas_hsv = FigureCanvas(ax_hsv.figure)
         ax_hsv.mouse_init()
         layout_hsv.addWidget(canvas_hsv)
+
+    def inc(self):
+        self.imageDisp.nextImage()
+        
+        layoutImage = self.Image_Area.layout()
+        if layoutImage is None:
+            layoutImage = QVBoxLayout(self.Image_Area)
+        count = layoutImage.count()
+        if count == 1:
+            return
+        item = layoutImage.itemAt(count - 2)
+        widget = item.widget()
+        layoutImage.removeWidget(widget)
+        ax_img = self.imageDisp.UpdateImage()
+        canvas_image = FigureCanvas(ax_img.figure)
+        self.imageDisp.draw()
+        layoutImage.addWidget(canvas_image)
 
 
 
