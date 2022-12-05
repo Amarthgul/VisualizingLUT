@@ -11,11 +11,17 @@ class ColorCube(FigureCanvas):
         self.mode = mode
         self.plotSize = 1
         self.step = 8
-        self.pointSize = 240
-        self.pointOpacity = 0.25
+        
+        self.gridOpacity = 0.15
         self.fontSize = 15 
         self.showLegend = False 
         self.useBlackBackground = False 
+        self.pixelLimit = 1000
+        self.colorDepth = 255
+        self.pixelPointSize = 2
+        self.imageData = None 
+        self.pixelPos = []      # When RGB is used, self.pixelPos is the same as self.pixelColor
+        self.pixelColor = [] 
 
         self.spatialAxes = [self.step, self.step, self.step]
         self.R = []
@@ -58,7 +64,7 @@ class ColorCube(FigureCanvas):
         self.RGBColor[..., 0] = rc
         self.RGBColor[..., 1] = gc
         self.RGBColor[..., 2] = bc
-        self.RGBColor[..., 3] = self.pointOpacity
+        self.RGBColor[..., 3] = self.gridOpacity
 
         colors3 = np.zeros(self.cube.shape + (3,))
         colors3[..., 0] = rc
@@ -69,18 +75,70 @@ class ColorCube(FigureCanvas):
         self.HSVColor[..., 0] = colors3[..., 0]
         self.HSVColor[..., 1] = colors3[..., 1]
         self.HSVColor[..., 2] = colors3[..., 2]
-        self.HSVColor[..., 3] = self.pointOpacity
+        self.HSVColor[..., 3] = self.gridOpacity
 
+
+    def SetImageData(self, data):
+        self.imageData = data
+        self.ProcessImageData()
+
+    def ProcessImageData(self):
+        imageWidth = self.imageData.shape[0]
+        imageHeight = self.imageData.shape[1]
+        totalPixel = imageWidth * imageHeight
+        pixelColors = self.imageData.reshape(totalPixel, 3)
+
+        pixelColors = np.array(pixelColors, dtype = 'float')
+        # Regulate color, reduce 8 bits to 0-1
+        if np.max(pixelColors) > 1: 
+            pixelColors /= self.colorDepth
+
+        # Regulate data size
+        if totalPixel > self.pixelLimit:
+            selectIndex = np.random.choice(np.arange(totalPixel), self.pixelLimit, 
+                                           replace=False) 
+            totalPixel = self.pixelLimit 
+            pixelColors = pixelColors[selectIndex, :]
+
+        if self.mode == 'rgb':
+            self.pixelColor = pixelColors 
+        elif self.mode == 'hsv':
+            self.pixelColor =  matplotlib.colors.rgb_to_hsv(pixelColors)
+
+    def UpdatePlot(self, axes):
+        axes.clear()
+        axes.axis('off')
+
+        if self.mode == 'rgb':
+            axes.voxels(self.R, self.G, self.B, self.cube,
+                  facecolors=self.RGBColor,
+                  linewidth=0)
+
+        elif self.mode == 'hsv':
+            axes.voxels(self.R, self.G, self.B, self.cube,
+                  facecolors = self.HSVColor, 
+                  linewidth = 0)
+
+        if len(self.pixelColor) > 1:
+            axes.scatter(self.pixelColor[:, 0], 
+                                self.pixelColor[:, 1], 
+                                self.pixelColor[:, 2], 
+                                c = self.pixelColor, marker='o')
 
     def ShowPlot(self):
         '''
         Display the plot. If called externally, return the ax object. 
         '''
+        self.axes.clear()
+        self.axes.axis('off')
+
         if __name__ == "__main__":
             self.plotSize = 6 
 
         self.fig = Figure(figsize=(self.plotSize, self.plotSize))
         self.axes = self.fig.add_subplot(111, projection='3d')
+        self.axes.clear()
+        self.axes.axis('off')
 
         # First remove fill
         self.axes.w_xaxis.set_pane_color((.0, .0, .0, 1.0))
@@ -90,13 +148,10 @@ class ColorCube(FigureCanvas):
         if self.useBlackBackground:
             self.axes.set_facecolor("black")
 
-        start = 0;
-        end = 255;
         if self.mode == 'rgb':
             self.axes.voxels(self.R, self.G, self.B, self.cube,
                   facecolors=self.RGBColor,
                   linewidth=0)
-
             if self.showLegend:
                 self.axes.set_xlabel('$Red$', fontsize=self.fontSize)
                 self.axes.set_ylabel('$Green$', fontsize=self.fontSize)
@@ -106,11 +161,16 @@ class ColorCube(FigureCanvas):
             self.axes.voxels(self.R, self.G, self.B, self.cube,
                   facecolors = self.HSVColor, 
                   linewidth = 0)
-            
             if self.showLegend:
                 self.axes.set_xlabel('$Hue$', fontsize=self.fontSize)
                 self.axes.set_ylabel('$Saturation$', fontsize=self.fontSize)
                 self.axes.set_zlabel('$Value$', fontsize=self.fontSize)
+
+        if len(self.pixelColor) > 1:
+            self.axes.scatter(self.pixelColor[:, 0], 
+                                self.pixelColor[:, 1], 
+                                self.pixelColor[:, 2], 
+                                c = self.pixelColor, marker='o')
 
         if __name__ == "__main__":
             plt.show()
@@ -127,7 +187,9 @@ if __name__ == "__main__":
 
 '''
     Unused code 
-
+    self.pointSize = 240
+            start = 0;
+            end = 255;
             for zValue in np.linspace(start, end, self.step):
                 for xValue in np.linspace(start, end, self.step):
                     for yValue in np.linspace(start, end, self.step):
@@ -135,7 +197,7 @@ if __name__ == "__main__":
                         self.axes.scatter(xValue, yValue, zValue, 
                                           c = color, 
                                           s = self.pointSize, 
-                                          alpha = self.pointOpacity)
+                                          alpha = self.gridOpacity)
 
             for hue in np.linspace(0, 360, self.step):
                 for sat in np.linspace(0, 1, self.step):
@@ -147,5 +209,5 @@ if __name__ == "__main__":
                         self.axes.scatter(hue, sat, val, 
                                           c = color, 
                                           s = self.pointSize, 
-                                          alpha = self.pointOpacity)
+                                          alpha = self.gridOpacity)
 '''

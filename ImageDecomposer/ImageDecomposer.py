@@ -32,6 +32,7 @@ def Main():
         app.exec()
 
 
+# Testing class 
 
 import PIL.Image as img
 import os, os.path
@@ -43,8 +44,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib import image
-
-
 
 class Lumetri(FigureCanvas):
     '''

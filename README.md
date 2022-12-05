@@ -3,19 +3,22 @@
 Give LUTs a visible profile. 
 
 <p align="center">
-	<img src="https://github.com/Amarthgul/VisualizingLUT/blob/main/ImageDecomposer/Images/Resources/ver.0.1.png" width="512">
+	<img src="https://github.com/Amarthgul/VisualizingLUT/blob/main/ImageDecomposer/Images/Resources/ver.0.1.png">
 </p>
 
 ------------------------------------------
 
 ## ImageDecomposer
 
-Python project for reading and outputing images as data sheets 
+UI: 
 
-* UI_MainWindow.py
+* `UI_MainWindow.ui`
 
-  The GUI translated from `UI_MainWindow.ui`. The `.ui` file 
-  is made from and can be edited with QT Designer.
+  This file is created and modified in QT Designer. 
+
+* `UI_MainWindow.py`
+
+  PyQt5 GUI translated from `UI_MainWindow.ui`
 
 Plot Classes: 
 

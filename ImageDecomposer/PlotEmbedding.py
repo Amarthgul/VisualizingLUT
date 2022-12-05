@@ -38,10 +38,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #self.boxplotDisp = boxplotDisplay()
         self.cc_rgb = ColorCube('rgb')
         self.cc_hsv = ColorCube('hsv')
+        self.ax_rgb = None 
 
         self.index = 0
 
         self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
+        self.cc_hsv.SetImageData(self.imageDisp.GetCurrentData())
+        self.cc_rgb.SetImageData(self.imageDisp.GetCurrentData())
         self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
         self.lumetri.UpdateLumetri()
         #self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
@@ -128,29 +131,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def inc(self):
         self.imageDisp.nextImage()
-        self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
-        self.lumetri.UpdateLumetri()
-        self.UpdateImages()
+        self.UpdateEntireImage()
+        self.UpdatePartialImage()
         
     def dec(self):
         self.imageDisp.lastImage()
-        self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
-        self.lumetri.UpdateLumetri()
-        self.UpdateImages()
+        self.UpdateEntireImage()
+        self.UpdatePartialImage()
 
     def displayGrayCard(self):
         self.imageDisp.displayGrayCard()
-        self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
-        self.lumetri.UpdateLumetri()
-        self.UpdateImages()
+        self.UpdateEntireImage()
+        self.UpdatePartialImage()
 
     def displayGradient(self):
         self.imageDisp.displayGradient()
+        self.UpdateEntireImage()
+        self.UpdatePartialImage()
+
+    def UpdateEntireImage(self):
+        '''
+        Update method for when the image itself is altered. 
+        '''
+        
         self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
         self.lumetri.UpdateLumetri()
-        self.UpdateImages()
+        self.cc_hsv.SetImageData(self.imageDisp.GetCurrentData())
+        self.cc_rgb.SetImageData(self.imageDisp.GetCurrentData())
+        self.cc_rgb.UpdatePlot(self.ax_rgb)
 
-    def UpdateImages(self):
+
+    def UpdatePartialImage(self):
+        '''
+        Update method for when the image is not changed, only selecting different channel. 
+        '''
         self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
         self.histoDisp.UpdateHist()
         #self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
@@ -160,34 +174,34 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.Histo_All_Check.isChecked():
             self.histoDisp.DisplayAll()
             #self.boxplotDisp.DisplayAll()
-            self.UpdateImages()
+            self.UpdatePartialImage()
 
 
     def CheckR(self):
         if self.Histo_R_Check.isChecked():
             self.histoDisp.DisplayOnlyR()
             #self.boxplotDisp.DisplayOnlyR()
-            self.UpdateImages()
+            self.UpdatePartialImage()
 
     def CheckG(self):
         if self.Histo_G_Check.isChecked():
             self.histoDisp.DisplayOnlyG()
             #self.boxplotDisp.DisplayOnlyG()
-            self.UpdateImages()
+            self.UpdatePartialImage()
 
 
     def CheckB(self):
         if self.Histo_B_Check.isChecked():
             self.histoDisp.DisplayOnlyB()
             #self.boxplotDisp.DisplayOnlyB()
-            self.UpdateImages()
+            self.UpdatePartialImage()
 
 
     def CheckL(self):
         if self.Histo_L_Check.isChecked():
             self.histoDisp.DisplayOnlyL()
             #self.boxplotDisp.DisplayOnlyL()
-            self.UpdateImages()
+            self.UpdatePartialImage()
 
 
 
