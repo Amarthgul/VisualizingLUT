@@ -10,6 +10,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from matplotlib import image
+import colorsys
 
 import PyQt5.QtWidgets as QtWidgets
 
@@ -54,7 +55,7 @@ class HistoDisplay(FigureCanvas):
         self.SetImageData(np.asarray(im))
 
     def SetImageData(self, data):
-        self.imageData = data 
+        self.imageData = data
         self.R = self.imageData[..., 0]
         self.G = self.imageData[..., 1]
         self.B = self.imageData[..., 2]
@@ -104,7 +105,7 @@ class HistoDisplay(FigureCanvas):
         for i in range(self.channelCount):
             if self.channelFlags[i]:
                 self.axes.hist(self.channels[i].ravel(), 
-                               bins = 256, 
+                               bins=256,
                                fc=self.channelColors[i])
         
         if __name__ == '__main__':

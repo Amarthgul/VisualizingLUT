@@ -7,7 +7,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 class ColorCube(FigureCanvas):
-    def __init__(self, mode = 'rgb'):
+    def __init__(self, mode='rgb'):
         self.mode = mode
         self.plotSize = 1
         self.step = 8
@@ -79,7 +79,7 @@ class ColorCube(FigureCanvas):
         if __name__ == "__main__":
             self.plotSize = 6 
 
-        self.fig = Figure(figsize = (self.plotSize, self.plotSize))
+        self.fig = Figure(figsize=(self.plotSize, self.plotSize))
         self.axes = self.fig.add_subplot(111, projection='3d')
 
         # First remove fill
@@ -94,13 +94,13 @@ class ColorCube(FigureCanvas):
         end = 255;
         if self.mode is 'rgb':
             self.axes.voxels(self.R, self.G, self.B, self.cube,
-                  facecolors = self.RGBColor, 
-                  linewidth = 0)
+                  facecolors=self.RGBColor,
+                  linewidth=0)
 
             if self.showLegend:
-                self.axes.set_xlabel('$Red$', fontsize = self.fontSize)    
-                self.axes.set_ylabel('$Green$', fontsize = self.fontSize)    
-                self.axes.set_zlabel('$Blue$', fontsize = self.fontSize) 
+                self.axes.set_xlabel('$Red$', fontsize=self.fontSize)
+                self.axes.set_ylabel('$Green$', fontsize=self.fontSize)
+                self.axes.set_zlabel('$Blue$', fontsize=self.fontSize)
 
         elif self.mode is 'hsv':
             self.axes.voxels(self.R, self.G, self.B, self.cube,
@@ -108,9 +108,9 @@ class ColorCube(FigureCanvas):
                   linewidth = 0)
             
             if self.showLegend:
-                self.axes.set_xlabel('$Hue$', fontsize = self.fontSize)    
-                self.axes.set_ylabel('$Saturation$', fontsize = self.fontSize)    
-                self.axes.set_zlabel('$Value$', fontsize = self.fontSize)
+                self.axes.set_xlabel('$Hue$', fontsize=self.fontSize)
+                self.axes.set_ylabel('$Saturation$', fontsize=self.fontSize)
+                self.axes.set_zlabel('$Value$', fontsize=self.fontSize)
 
         if __name__ == "__main__":
             plt.show()

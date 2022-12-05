@@ -22,6 +22,7 @@ from UI_MainWindow import Ui_MainWindow
 from ColorCube import ColorCube 
 from ReadImage import ImageDisplay
 from Histogram import HistoDisplay
+from Boxplot import boxplotDisplay
 
 _DEBUGGING = False
 
@@ -32,12 +33,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.imageDisp = ImageDisplay()
         self.histoDisp = HistoDisplay()
+        self.boxplotDisp = boxplotDisplay()
         self.cc_rgb = ColorCube('rgb')
         self.cc_hsv = ColorCube('hsv')
 
         self.index = 0
 
         self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
+        self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
 
         self.NextImageButton.clicked.connect(self.inc)
         self.PreviousImageButton.clicked.connect(self.dec)
@@ -74,6 +77,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         canvas_hist = FigureCanvas(ax_hist.figure)
         layoutHisto.addWidget(self.histoDisp)
         self.show()
+
+        '''====================================================='''
+        '''================ Boxplot Display =================='''
+        layoutBoxplot = self.boxplotFrame.layout()
+        if layoutBoxplot is None:
+            layoutBoxplot = QVBoxLayout(self.boxplotFrame)
+        ax_boxplot = self.boxplotDisp.UpdateBoxplot()
+        canvas_boxplot = FigureCanvas(ax_boxplot.figure)
+        layoutBoxplot.addWidget(self.boxplotDisp)
+        self.show()
+
 
         '''====================================================='''
         '''================== RGB Color Cube ==================='''
@@ -117,26 +131,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def UpdateImages(self):
         self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
         self.histoDisp.UpdateHist()
+        self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
+        self.boxplotDisp.UpdateBoxplot()
         
     def CheckAll(self):
         if self.Histo_All_Check.isChecked():
             self.histoDisp.DisplayAll()
+            self.boxplotDisp.DisplayAll()
             self.UpdateImages()
+
+
     def CheckR(self):
         if self.Histo_R_Check.isChecked():
             self.histoDisp.DisplayOnlyR()
+            self.boxplotDisp.DisplayOnlyR()
             self.UpdateImages()
+
     def CheckG(self):
         if self.Histo_G_Check.isChecked():
             self.histoDisp.DisplayOnlyG()
+            self.boxplotDisp.DisplayOnlyG()
             self.UpdateImages()
+
+
     def CheckB(self):
         if self.Histo_B_Check.isChecked():
             self.histoDisp.DisplayOnlyB()
+            self.boxplotDisp.DisplayOnlyB()
             self.UpdateImages()
+
+
     def CheckL(self):
         if self.Histo_L_Check.isChecked():
             self.histoDisp.DisplayOnlyL()
+            self.boxplotDisp.DisplayOnlyL()
             self.UpdateImages()
 
 
