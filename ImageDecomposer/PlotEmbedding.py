@@ -22,7 +22,8 @@ from UI_MainWindow import Ui_MainWindow
 from ColorCube import ColorCube 
 from ReadImage import ImageDisplay
 from Histogram import HistoDisplay
-from Boxplot import boxplotDisplay
+from LumetriVector import Lumetri 
+#from Boxplot import boxplotDisplay
 
 _DEBUGGING = False
 
@@ -33,14 +34,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.imageDisp = ImageDisplay()
         self.histoDisp = HistoDisplay()
-        self.boxplotDisp = boxplotDisplay()
+        self.lumetri = Lumetri()
+        #self.boxplotDisp = boxplotDisplay()
         self.cc_rgb = ColorCube('rgb')
         self.cc_hsv = ColorCube('hsv')
 
         self.index = 0
 
         self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
-        self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
+        self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
+        self.lumetri.UpdateLumetri()
+        #self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
 
         self.NextImageButton.clicked.connect(self.inc)
         self.PreviousImageButton.clicked.connect(self.dec)
@@ -74,19 +78,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if layoutHisto is None:
             layoutHisto = QVBoxLayout(self.histoFrame)
         ax_hist = self.histoDisp.UpdateHist()
-        canvas_hist = FigureCanvas(ax_hist.figure)
+        #canvas_hist = FigureCanvas(ax_hist.figure)
         layoutHisto.addWidget(self.histoDisp)
         self.show()
 
         '''====================================================='''
-        '''================ Boxplot Display =================='''
-        layoutBoxplot = self.boxplotFrame.layout()
-        if layoutBoxplot is None:
-            layoutBoxplot = QVBoxLayout(self.boxplotFrame)
-        ax_boxplot = self.boxplotDisp.UpdateBoxplot()
-        canvas_boxplot = FigureCanvas(ax_boxplot.figure)
-        layoutBoxplot.addWidget(self.boxplotDisp)
+        '''============= Lumetri Vector Display ================'''
+        layoutLumetri = self.Lumetri_Area.layout()
+        if layoutLumetri is None:
+            layoutLumetri = QVBoxLayout(self.Lumetri_Area)
+        ax_lumetri = self.histoDisp.UpdateHist()
+        #canvas_lumetri = FigureCanvas(ax_lumetri.figure)
+        layoutLumetri.addWidget(self.lumetri)
         self.show()
+
+        #'''====================================================='''
+        #'''================ Boxplot Display =================='''
+        #layoutBoxplot = self.boxplotFrame.layout()
+        #if layoutBoxplot is None:
+        #    layoutBoxplot = QVBoxLayout(self.boxplotFrame)
+        #ax_boxplot = self.boxplotDisp.UpdateBoxplot()
+        #canvas_boxplot = FigureCanvas(ax_boxplot.figure)
+        #layoutBoxplot.addWidget(self.boxplotDisp)
+        #self.show()
 
 
         '''====================================================='''
@@ -114,57 +128,65 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def inc(self):
         self.imageDisp.nextImage()
+        self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
+        self.lumetri.UpdateLumetri()
         self.UpdateImages()
         
     def dec(self):
         self.imageDisp.lastImage()
+        self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
+        self.lumetri.UpdateLumetri()
         self.UpdateImages()
 
     def displayGrayCard(self):
         self.imageDisp.displayGrayCard()
+        self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
+        self.lumetri.UpdateLumetri()
         self.UpdateImages()
 
     def displayGradient(self):
         self.imageDisp.displayGradient()
+        self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
+        self.lumetri.UpdateLumetri()
         self.UpdateImages()
 
     def UpdateImages(self):
         self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
         self.histoDisp.UpdateHist()
-        self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
-        self.boxplotDisp.UpdateBoxplot()
+        #self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
+        #self.boxplotDisp.UpdateBoxplot()
         
     def CheckAll(self):
         if self.Histo_All_Check.isChecked():
             self.histoDisp.DisplayAll()
-            self.boxplotDisp.DisplayAll()
+            #self.boxplotDisp.DisplayAll()
             self.UpdateImages()
 
 
     def CheckR(self):
         if self.Histo_R_Check.isChecked():
             self.histoDisp.DisplayOnlyR()
-            self.boxplotDisp.DisplayOnlyR()
+            #self.boxplotDisp.DisplayOnlyR()
             self.UpdateImages()
 
     def CheckG(self):
         if self.Histo_G_Check.isChecked():
             self.histoDisp.DisplayOnlyG()
-            self.boxplotDisp.DisplayOnlyG()
+            #self.boxplotDisp.DisplayOnlyG()
             self.UpdateImages()
 
 
     def CheckB(self):
         if self.Histo_B_Check.isChecked():
             self.histoDisp.DisplayOnlyB()
-            self.boxplotDisp.DisplayOnlyB()
+            #self.boxplotDisp.DisplayOnlyB()
             self.UpdateImages()
 
 
     def CheckL(self):
         if self.Histo_L_Check.isChecked():
             self.histoDisp.DisplayOnlyL()
-            self.boxplotDisp.DisplayOnlyL()
+            #self.boxplotDisp.DisplayOnlyL()
             self.UpdateImages()
 
 

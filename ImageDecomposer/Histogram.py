@@ -39,8 +39,14 @@ class HistoDisplay(FigureCanvas):
         self.fig = Figure(figsize=(width, height), dpi=dpi)
         self.fig.clear()
         self.axes = self.fig.add_subplot(111)
-        self.axes.clear()
-        self.axes.axis('off')
+        self.fig, self.axes = plt.subplots(
+            2, figsize=(7, 5), sharex = True,
+            gridspec_kw={"height_ratios": (.15, .85)}  
+        )
+        self.axes[0].clear()
+        self.axes[0].axis('off')
+        self.axes[1].clear()
+        self.axes[1].axis('off')
 
         if __name__ == "__main__":
             self._readSampleImage()
@@ -100,14 +106,25 @@ class HistoDisplay(FigureCanvas):
         Iterate through channels, plot the channels that has been marked true for display. 
         '''
 
-        self.axes.clear()
-        self.axes.axis('off')
+        # Histogram 
+        self.axes[0].clear()
+        self.axes[0].axis('off')
+        self.axes[1].clear()
+        self.axes[1].axis('off')
+
         for i in range(self.channelCount):
             if self.channelFlags[i]:
-                self.axes.hist(self.channels[i].ravel(), 
+                self.axes[1].hist(self.channels[i].ravel(), 
                                bins=256,
                                fc=self.channelColors[i])
-        
+
+        if False in self.channelFlags: # Not diaplying the 4 channels all together 
+            for i in range(self.channelCount):
+                if self.channelFlags[i]:
+                    self.axes[0].boxplot(self.channels[i].ravel(),
+                                      vert = False, sym = '', 
+                                      widths = (.6))
+
         if __name__ == '__main__':
             plt.show()
         else:

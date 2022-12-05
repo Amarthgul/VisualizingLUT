@@ -50,7 +50,6 @@ class ImageDisplay(FigureCanvas):
             ext = os.path.splitext(f)[1]
             if ext.lower() in self.validFormat:
                 self.imagePaths.append(os.path.join(self.baselinePath, f))
-        print(self.imagePaths)
 
     def _readBaselineImages(self):
         for name, file in enumerate(self.imagePaths):

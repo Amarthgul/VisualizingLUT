@@ -21,11 +21,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Boxplot.py" />
     <Compile Include="Histogram.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ImageDecomposer.py" />
     <Compile Include="ColorCube.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LumetriVector.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlotEmbedding.py" />
