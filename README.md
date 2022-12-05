@@ -2,7 +2,7 @@
 
 Give LUTs a visible profile. 
 
-p align="center">
+<p align="center">
 	<img src="https://github.com/Amarthgul/VisualizingLUT/blob/main/ImageDecomposer/Images/Resources/ver.0.1.png" width="512">
 </p>
 
