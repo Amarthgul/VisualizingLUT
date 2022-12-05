@@ -2,44 +2,45 @@
 
 Give LUTs a visible profile. 
 
+p align="center">
+	<img src="https://github.com/Amarthgul/HappyDungeonFriends/blob/main/Content/Screencap/lye4f1D.png" width="512">
+</p>
+
 ------------------------------------------
 
 ## ImageDecomposer
 
 Python project for reading and outputing images as data sheets 
 
-* Images 
-
-  Folder of several sequences which shall be read and converted into data sheets.
-  
-  RGB array `(R_VLAUE, G_VALUE, B_VALUE)`
-  
-  RGBL array `(R_VLAUE, G_VALUE, B_VALUE, Brightness)`
-  
-  R channel distribution (0-255): `(0, 3), (1, 10), ..., (255, 0)`
-
-* ImageDecomposer.py
-  
-  Main program 
-
-  (This is not the case during development, currently the `PlotEmbedding.py` is where
-  the plots are being drawn)
-
 * UI_MainWindow.py
 
-  The GUI translated from `UI_MainWindow.ui`. The `.ui` file is made can can be edited with QT Designer.
+  The GUI translated from `UI_MainWindow.ui`. The `.ui` file 
+  is made from and can be edited with QT Designer.
 
-* PlotEmbedding.py
+Plot Classes: 
 
-  Display the PyQt UI and with plot embeddings 
+* HistoDisplay
 
+  Containing both the histogram and box graph 
 
+* ColorCube
 
-## Visualization.html
+  Display RGB and HSV color cube 
 
-The main file for making and displaying the anaylsis 
+* Lumetri
+
+  RadViz graph based on the RGB value of the pixels. 
+
+* ~~boxplotDisplay~~
+
+  This class has been merged into HistoDisplay for faster computation 
+
 
 # Logs 
+
+* 4th Dec (Evelyn & Amarth)
+
+  Added boxgraph, histogram, and lumetri
 
 * 29th Nov (Amarth)
   

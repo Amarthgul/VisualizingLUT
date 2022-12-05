@@ -92,7 +92,7 @@ class ColorCube(FigureCanvas):
 
         start = 0;
         end = 255;
-        if self.mode is 'rgb':
+        if self.mode == 'rgb':
             self.axes.voxels(self.R, self.G, self.B, self.cube,
                   facecolors=self.RGBColor,
                   linewidth=0)
@@ -102,7 +102,7 @@ class ColorCube(FigureCanvas):
                 self.axes.set_ylabel('$Green$', fontsize=self.fontSize)
                 self.axes.set_zlabel('$Blue$', fontsize=self.fontSize)
 
-        elif self.mode is 'hsv':
+        elif self.mode == 'hsv':
             self.axes.voxels(self.R, self.G, self.B, self.cube,
                   facecolors = self.HSVColor, 
                   linewidth = 0)
