@@ -46,6 +46,18 @@
     <Folder Include="Images\Sequence1\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\Baseline\baseline_01.jpg" />
+    <Content Include="Images\Baseline\baseline_02.jpg" />
+    <Content Include="Images\Baseline\baseline_03.jpg" />
+    <Content Include="Images\Baseline\baseline_04.jpg" />
+    <Content Include="Images\Baseline\baseline_05.jpg" />
+    <Content Include="Images\Baseline\baseline_06.jpg" />
+    <Content Include="Images\Baseline\baseline_07.jpg" />
+    <Content Include="Images\Baseline\baseline_08.jpg" />
+    <Content Include="Images\Baseline\baseline_09.jpg" />
+    <Content Include="Images\Baseline\baseline_10.jpg" />
+    <Content Include="Images\Baseline\Baseline_11.jpg" />
+    <Content Include="Images\Baseline\Baseline_12.jpg" />
     <Content Include="Images\Baseline\README.md" />
     <Content Include="Images\gradient.jpg" />
     <Content Include="Images\graycard.jpg" />

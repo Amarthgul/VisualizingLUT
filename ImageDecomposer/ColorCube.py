@@ -100,10 +100,11 @@ class ColorCube(FigureCanvas):
             totalPixel = self.pixelLimit 
             pixelColors = pixelColors[selectIndex, :]
 
+        self.pixelColor = pixelColors
         if self.mode == 'rgb':
-            self.pixelColor = pixelColors 
+            self.pixelPos = pixelColors
         elif self.mode == 'hsv':
-            self.pixelColor =  matplotlib.colors.rgb_to_hsv(pixelColors)
+            self.pixelPos =  matplotlib.colors.rgb_to_hsv(pixelColors)
 
     def UpdatePlot(self, axes):
         axes.clear()
@@ -167,9 +168,9 @@ class ColorCube(FigureCanvas):
                 self.axes.set_zlabel('$Value$', fontsize=self.fontSize)
 
         if len(self.pixelColor) > 1:
-            self.axes.scatter(self.pixelColor[:, 0], 
-                                self.pixelColor[:, 1], 
-                                self.pixelColor[:, 2], 
+            self.axes.scatter(self.pixelPos[:, 0], 
+                                self.pixelPos[:, 1], 
+                                self.pixelPos[:, 2], 
                                 c = self.pixelColor, marker='o')
 
         if __name__ == "__main__":

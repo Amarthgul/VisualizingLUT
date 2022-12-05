@@ -40,7 +40,7 @@ class HistoDisplay(FigureCanvas):
         self.fig.clear()
         self.axes = self.fig.add_subplot(111)
         self.fig, self.axes = plt.subplots(
-            2, figsize=(7, 5), sharex = True,
+            2, figsize=(width, height), sharex = True,
             gridspec_kw={"height_ratios": (.15, .85)}  
         )
         self.axes[0].clear()

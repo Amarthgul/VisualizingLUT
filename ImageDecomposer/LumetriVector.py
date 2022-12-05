@@ -33,7 +33,7 @@ class Lumetri(FigureCanvas):
             ])
         self.pointColorRGB = np.array([
                 '#ff0000', '#00ff00', '#0000ff',
-                '#ffff00', '#ff00ff', '#00ffff'
+                '#ffff00', '#00ffff', '#ff00ff'
             ])
         self.pixelPointSize = .4
         self.backgroundColor = (.2, .2, .2, .1)

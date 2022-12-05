@@ -23,7 +23,7 @@ class ImageDisplay(FigureCanvas):
         self.gradientPath = './/Images//gradient.jpg'
         self.imagePaths = []        # In format of ['//Image//Basline//imageXX.jpg', ...] 
         self.baselineImages = []    # An array of image data 
-        self.baselineImageIndex = 0
+        self.baselineImageIndex = 11 # Change this for directly load certain image
         self.grayCard = None
         self.gradient = None 
         self.displayingGrayCard = False 
