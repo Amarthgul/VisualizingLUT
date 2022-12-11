@@ -24,13 +24,6 @@
     <property name="spacing">
      <number>9</number>
     </property>
-    <item row="4" column="0">
-     <widget class="QPushButton" name="PreviousImageButton">
-      <property name="text">
-       <string>Previous</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="0" colspan="2">
      <widget class="QPushButton" name="GrayCardButton">
       <property name="text">
@@ -40,15 +33,11 @@
     </item>
     <item row="3" column="0" colspan="2">
      <widget class="QSlider" name="LUTSlider">
+      <property name="singleStep">
+       <number>10</number>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QPushButton" name="NextImageButton">
-      <property name="text">
-       <string>Next</string>
       </property>
      </widget>
     </item>
@@ -178,6 +167,13 @@
      <widget class="QGroupBox" name="RGB_Area">
       <property name="title">
        <string>RGB</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="QPushButton" name="ArrowButton">
+      <property name="text">
+       <string>Show Arrows</string>
       </property>
      </widget>
     </item>

@@ -19,10 +19,9 @@ class Lumetri(FigureCanvas):
     def __init__(self, parent=None, width=1, height=1, dpi=100):
 
         self.imageData = None
-        self.pixelLimit = 20000
         self.colorDepth = 255 
         self.radius = 1
-        self.showCircle = False 
+        self.showCircle = True 
         self.pointRGB = np.array([
                 [0, self.radius],
                 [-(np.sqrt(3) / 2)*self.radius, -0.5],
@@ -36,8 +35,22 @@ class Lumetri(FigureCanvas):
                 '#ffff00', '#00ffff', '#ff00ff'
             ])
         self.pixelPointSize = .4
-        self.backgroundColor = (.2, .2, .2, .1)
-        
+        self.backgroundColor = (.1, .1, .1, .1)
+
+        # Since the arrow take more space, a reduce of sample is needed
+        # lutClarification dicatates the proportion of pixels comapre to normal mode 
+        self.pixelLimit = 20000
+        self.baseLimit = 20000
+        self.lutClarification = 0.01
+        self.selectIndex = []   # Indeices for pixel reduction 
+
+        self.lutComparison = False 
+        self.processedImage = None
+        self.headWidth = .015
+        self.lineWidth = .002
+        self.enlarger = 1.0
+
+
         self.fig = Figure(figsize=(width, height))
         self.fig.clear()
         self.axes = self.fig.add_subplot(111)
@@ -56,13 +69,36 @@ class Lumetri(FigureCanvas):
         im = img.open(imgPath).convert("RGB")
         self.SetImageData(np.asarray(im))
 
-    def SetImageData(self, data):
-        self.imageData = data
+    def _reducePixelIndex(self, ImageData):
+        if (self.lutComparison):
+            self.pixelLimit = int(self.baseLimit * self.lutClarification)
+        else:
+            self.pixelLimit = self.baseLimit
 
-    def CalculatedRadViz(self, ImageData):
+        imageWidth = ImageData.shape[0]
+        imageHeight = ImageData.shape[1]
+        totalPixel = imageWidth * imageHeight
+        self.selectIndex = np.random.choice(np.arange(totalPixel), self.pixelLimit, 
+                                           replace=False) 
+
+    def SetImageData(self, data):
+        if self.lutComparison:
+            self.processedImage = data[0]
+            self.imageData = data[1]
+        else:
+            self.imageData = data[0]
+        self._reducePixelIndex(self.imageData)
+
+    def SetLutComparison(self, boolFlag):
+        self.lutComparison = boolFlag 
+
+    def SetLutScale(self, scalar):
+        self.enlarger = scalar 
+
+    def CalculateRadViz(self, ImageData):
         '''
-        Given image data in RGB array, calculates the corresponding 2D locations
-        on the RadViz plot. 
+        Given image data in RGB array, calculates the corresponding 2D locations on the RadViz plot. 
+        Reduce the amount of data if needed. 
         '''
         imageWidth = ImageData.shape[0]
         imageHeight = ImageData.shape[1]
@@ -76,10 +112,8 @@ class Lumetri(FigureCanvas):
 
         # Regulate data size
         if totalPixel > self.pixelLimit:
-            selectIndex = np.random.choice(np.arange(totalPixel), self.pixelLimit, 
-                                           replace=False) 
             totalPixel = self.pixelLimit 
-            pixelColors = pixelColors[selectIndex, :]
+            pixelColors = pixelColors[self.selectIndex, :]
 
         # Calculate the 2D points 
         dataPoints = np.zeros((totalPixel, 2))
@@ -92,11 +126,21 @@ class Lumetri(FigureCanvas):
         
         return (pixelColors, dataPoints)
 
+    def CalculateArrow(self, originalData, processedDate):
+        # Subtract one from another to get the arrows  
+        return processedDate - originalData
+
+
     def UpdateLumetri(self):
         self.axes.clear()
         self.axes.axis('off')
         
-        (pixelColors, dataPoints) = self.CalculatedRadViz(self.imageData)
+        (pixelColors, dataPoints) = self.CalculateRadViz(self.imageData)
+        arrows = []
+        if self.lutComparison:
+            (pixelColors, processedPoints) = self.CalculateRadViz(self.processedImage)
+            arrows = self.CalculateArrow(dataPoints, processedPoints)
+        
 
         if self.showCircle:
             circle1 = plt.Circle((0, 0), self.radius, 
@@ -107,10 +151,23 @@ class Lumetri(FigureCanvas):
         # The RGB dots 
         self.axes.scatter(self.pointRGB[:, 0], self.pointRGB[:, 1], c = self.pointColorRGB, 
                    zorder=1)
-        # image pixel dots 
-        self.axes.scatter(dataPoints[:, 0], dataPoints[:, 1], 
-                   c = pixelColors, s = self.pixelPointSize, 
-                   zorder=1)
+
+        if self.lutComparison:
+            # draw arrows 
+            for i in range(len(dataPoints)):
+                self.axes.arrow(dataPoints[i][0] * self.enlarger, 
+                                dataPoints[i][1] * self.enlarger,
+                                arrows[i][0] * self.enlarger,
+                                arrows[i][1] * self.enlarger, 
+                                facecolor = pixelColors[i], 
+                                edgecolor = pixelColors[i],
+                                head_width = self.headWidth, 
+                                width = self.lineWidth)
+        else:
+            # image pixel dots 
+            self.axes.scatter(dataPoints[:, 0], dataPoints[:, 1], 
+                       c = pixelColors, s = self.pixelPointSize, 
+                       zorder=1)
 
         plt.xlim(-1.02, 1.02)
         plt.ylim(-1.02, 1.02)

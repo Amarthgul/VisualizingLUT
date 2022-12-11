@@ -48,6 +48,8 @@ class HistoDisplay(FigureCanvas):
         self.axes[1].clear()
         self.axes[1].axis('off')
 
+        self.lutComparison = False 
+
         if __name__ == "__main__":
             self._readSampleImage()
         else: 
@@ -60,13 +62,24 @@ class HistoDisplay(FigureCanvas):
         im = img.open(imgPath).convert("RGB")
         self.SetImageData(np.asarray(im))
 
+    def _calculateL(self, R, G, B):
+        '''
+        This one uses the definition of Y in YCbCr
+        '''
+        return 16.0 + (65.738 / 256) * R +\
+            (129.057 / 256) * G +\
+            (25.064 / 256) * B
+
     def SetImageData(self, data):
-        self.imageData = data
+        self.imageData = data[0]
         self.R = self.imageData[..., 0]
         self.G = self.imageData[..., 1]
         self.B = self.imageData[..., 2]
-        self.L = self.imageData[..., 0]  # TODO: find a way to implement this L channel 
+        self.L = self._calculateL(self.R, self.G, self.B) 
         self.channels = [self.R, self.G, self.B, self.L]
+
+    def SetLutComparison(self, boolFlag):
+        self.lutComparison = boolFlag 
 
 
     def DisplayAll(self):

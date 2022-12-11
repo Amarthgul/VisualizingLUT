@@ -31,6 +31,8 @@ class ColorCube(FigureCanvas):
         self.RGBColor = []
         self.HSVColor = []
 
+        self.lutComparison = False 
+
         self.initData()
 
         self.fig = Figure(figsize=(self.plotSize, self.plotSize))
@@ -79,8 +81,11 @@ class ColorCube(FigureCanvas):
 
 
     def SetImageData(self, data):
-        self.imageData = data
+        self.imageData = data[0]
         self.ProcessImageData()
+
+    def SetLutComparison(self, boolFlag):
+        self.lutComparison = boolFlag 
 
     def ProcessImageData(self):
         imageWidth = self.imageData.shape[0]

@@ -32,27 +32,34 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
+
+        self.enableLutComparison = True 
+
         self.imageDisp = ImageDisplay()
         self.histoDisp = HistoDisplay()
         self.lumetri = Lumetri()
-        #self.boxplotDisp = boxplotDisplay()
         self.cc_rgb = ColorCube('rgb')
         self.cc_hsv = ColorCube('hsv')
         self.ax_rgb = None 
 
-        self.index = 0
+        #self.displayGradient()
 
+        self.updateArrow()
+
+        # Feed image data to all modules 
         self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
         self.cc_hsv.SetImageData(self.imageDisp.GetCurrentData())
         self.cc_rgb.SetImageData(self.imageDisp.GetCurrentData())
         self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
         self.lumetri.UpdateLumetri()
-        #self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
+        
 
-        self.NextImageButton.clicked.connect(self.inc)
-        self.PreviousImageButton.clicked.connect(self.dec)
+        # Connect interactive buttons 
+        self.ArrowButton.clicked.connect(self.toggleArrow)
         self.GrayCardButton.clicked.connect(self.displayGrayCard)
         self.GradientButton.clicked.connect(self.displayGradient)
+
+        self.LUTSlider.valueChanged.connect(self.updateSlider)
 
         self.Histo_All_Check.toggled.connect(self.CheckAll)
         self.Histo_R_Check.toggled.connect(self.CheckR)
@@ -95,17 +102,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         layoutLumetri.addWidget(self.lumetri)
         self.show()
 
-        #'''====================================================='''
-        #'''================ Boxplot Display =================='''
-        #layoutBoxplot = self.boxplotFrame.layout()
-        #if layoutBoxplot is None:
-        #    layoutBoxplot = QVBoxLayout(self.boxplotFrame)
-        #ax_boxplot = self.boxplotDisp.UpdateBoxplot()
-        #canvas_boxplot = FigureCanvas(ax_boxplot.figure)
-        #layoutBoxplot.addWidget(self.boxplotDisp)
-        #self.show()
-
-
         '''====================================================='''
         '''================== RGB Color Cube ==================='''
         self.cc_rgb.mode = 'rgb'
@@ -129,15 +125,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         layout_hsv.addWidget(canvas_hsv)
 
 
-    def inc(self):
-        self.imageDisp.nextImage()
+    def updateArrow(self):
+        self.imageDisp.SetLutComparison(self.enableLutComparison)
+        self.histoDisp.SetLutComparison(self.enableLutComparison)
+        self.cc_hsv.SetLutComparison(self.enableLutComparison)
+        self.cc_rgb.SetLutComparison(self.enableLutComparison)
+        self.lumetri.SetLutComparison(self.enableLutComparison)
+        self.lumetri.SetLutComparison(self.enableLutComparison)
+
+    def toggleArrow(self):
+        self.enableLutComparison = not self.enableLutComparison
+
+        self.updateArrow()
+
         self.UpdateEntireImage()
         self.UpdatePartialImage()
-        
-    def dec(self):
-        self.imageDisp.lastImage()
-        self.UpdateEntireImage()
-        self.UpdatePartialImage()
+
+    def updateSlider(self):
+        if self.enableLutComparison:
+            value = 1 + self.LUTSlider.value() / 10
+            self.lumetri.SetLutScale(value)
+            self.lumetri.UpdateLumetri()
 
     def displayGrayCard(self):
         self.imageDisp.displayGrayCard()
@@ -153,12 +161,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         '''
         Update method for when the image itself is altered. 
         '''
-        
+        self.imageDisp.UpdateImage()
+        self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
         self.lumetri.SetImageData(self.imageDisp.GetCurrentData())
         self.lumetri.UpdateLumetri()
-        self.cc_hsv.SetImageData(self.imageDisp.GetCurrentData())
-        self.cc_rgb.SetImageData(self.imageDisp.GetCurrentData())
-        self.cc_rgb.UpdatePlot(self.ax_rgb)
+        
 
 
     def UpdatePartialImage(self):
@@ -167,8 +174,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         '''
         self.histoDisp.SetImageData(self.imageDisp.GetCurrentData())
         self.histoDisp.UpdateHist()
-        #self.boxplotDisp.SetImageData(self.imageDisp.GetCurrentData())
-        #self.boxplotDisp.UpdateBoxplot()
         
     def CheckAll(self):
         if self.Histo_All_Check.isChecked():
@@ -189,13 +194,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             #self.boxplotDisp.DisplayOnlyG()
             self.UpdatePartialImage()
 
-
     def CheckB(self):
         if self.Histo_B_Check.isChecked():
             self.histoDisp.DisplayOnlyB()
             #self.boxplotDisp.DisplayOnlyB()
             self.UpdatePartialImage()
-
 
     def CheckL(self):
         if self.Histo_L_Check.isChecked():
