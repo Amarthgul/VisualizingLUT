@@ -28,7 +28,7 @@ class ImageDisplay(FigureCanvas):
         self.gradientPath = './/Images//gradient.jpg'
         self.imagePaths = []        # In format of ['//Image//Basline//imageXX.jpg', ...] 
         self.baselineImages = []    # An array of image data 
-        self.baselineImageIndex = 1 # Change this for directly load certain image
+        self.baselineImageIndex = 21 # Change this for directly load certain image
         self.grayCard = None
         self.gradient = None 
         self.displayingGrayCard = False 
@@ -43,7 +43,7 @@ class ImageDisplay(FigureCanvas):
         self.enableArrow = True 
         self.lutPath = './/Images//LUTs'
         self.lutPaths = []
-        self.lutStrength = 0.5
+        self.lutStrength = 0
         self.lutPivot = 0
         self.luts = []
         self.lutIndex = 0 
