@@ -3,7 +3,7 @@
 Give LUTs a visible profile. 
 
 <p align="center">
-	<img src="https://github.com/Amarthgul/VisualizingLUT/blob/main/ImageDecomposer/Images/Resources/ZKt2MU7.png">
+	<img src="https://github.com/Amarthgul/VisualizingLUT/blob/main/ImageDecomposer/Images/Resources/vScCf8g.png">
 </p>
 
 ------------------------------------------
@@ -24,15 +24,22 @@ Plot Classes:
 
 * HistoDisplay
 
-  Containing both the histogram and box graph 
+  Containing both the histogram and box graph. 
+
+  When `All` is selected, all 4 channels will be sidplayed. 
+
+  When a single channel is selected, the channel shall be isolated, with a box plot
+  on top, showing the median and deviance. 
 
 * ColorCube
 
-  Display RGB and HSV color cube 
+  Display RGB and HSV color cube. Currently they can be rotated around but cannot be updated.  
 
 * Lumetri
 
   RadViz graph based on the RGB value of the pixels. 
+
+  This shows which hue the pixel is closer to. 
 
 * ~~boxplotDisplay~~
 
