@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cbcafdf8-e24f-4742-9f41-0691d56a520d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PlotEmbedding.py</StartupFile>
+    <StartupFile>Curve.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Boxplot.py" />
+    <Compile Include="Curve.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Histogram.py">
       <SubType>Code</SubType>
     </Compile>
